@@ -3,6 +3,9 @@ const chars = "abcdefghijklmñnopqrstuvwxyzABCDEFGHIJKLMÑNOPQRSTUVWXYZ012345678
 const randomChar = () => chars[Math.floor(Math.random() * (chars.length -1))]
 const randomString = length => Array.from(Array(length)).map(randomChar).join("");
 
+const source = "assets/audio/keyboard.mp3";
+const audio = new Audio();
+
 const card = document.querySelector(".card");
 const letters = card.querySelector(".card-letters");
 
@@ -25,35 +28,69 @@ card.ontouchmove = (e) => {
     handleOnMove(e.touches[0])
 };
 
-let counter = 0
-function counterAdd() {
-    counter++
+// let counter = 0
+// function counterAdd() {
+//     counter++
+// }
+
+// card.addEventListener("click", (e) => {
+//     e.preventDefault()
+//     setInterval(IframeConstructor(), 120000)
+// })
+
+// function trol() {
+//     window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=yuCEyyQE2JOacSb0";
+// }
+
+// function IframeConstructor() {
+//     let test = document.getElementById("test")
+//     // test.innerHTML = `<iframe src="https://www.youtube.com/embed/koI6xFoRxjg?autoplay=1&loop=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&controls=0&disablekb=1&playlist=koI6xFoRxjg" width="0" height="0" title="Keyboard Typing Sound Effect (no copyright)" frameborder="0"></iframe>`;
+//     let iframe = document.createElement("iframe");
+//     iframe.setAttribute("src", "https://www.youtube.com/embed/koI6xFoRxjg?controls=0&autoplay=1&rel=0&playlist=koI6xFoRxjg");
+//     iframe.setAttribute("frameborder", "0");
+//     iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;; picture-in-picture");
+//     iframe.setAttribute("allowfullscreen", "");
+//     iframe.setAttribute("allowtransparency", "true")
+//     iframe.style.backgroundColor = "transparent"
+//     iframe.allowTransparency="true"
+
+//     card.appendChild(iframe);
+// }
+
+audio.src = source;
+audio.autoplay = true;
+let play = false;
+
+audio.addEventListener("canplay", function() {
+
+    card.setAttribute("onmouseover", "startKeyboardSound(true)")
+    card.setAttribute("onmouseout", "startKeyboardSound(false)")
+}, true);
+
+function startKeyboardSound(hover) {
+    console.log(hover)
+    if(hover == true) {
+            console.log(`Play, ${hover}`)
+            audio.play()
+            setInterval(() => {
+                console.log(`Audio is ended?: ${audio.ended}`)
+                if(audio.ended == true) {
+                    audio.currentTime = 0;
+                    audio.play()
+                }
+            }, 1)
+    } else if(hover == false) {
+        audio.currentTime = 0;
+        audio.pause();        
+        console.log(`Stop, ${hover}`) 
+    }
 }
-
-card.addEventListener("click", (e) => {
-    e.preventDefault()
-    setInterval(IframeConstructor(), 120000)
-})
-
-function trol() {
-    window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=yuCEyyQE2JOacSb0";
-}
-
-function IframeConstructor() {
-    let test = document.getElementById("test")
-    // test.innerHTML = `<iframe src="https://www.youtube.com/embed/koI6xFoRxjg?autoplay=1&loop=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&controls=0&disablekb=1&playlist=koI6xFoRxjg" width="0" height="0" title="Keyboard Typing Sound Effect (no copyright)" frameborder="0"></iframe>`;
-    let iframe = document.createElement("iframe");
-    iframe.setAttribute("src", "https://www.youtube.com/embed/koI6xFoRxjg?controls=0&autoplay=1&rel=0&playlist=koI6xFoRxjg");
-    iframe.setAttribute("frameborder", "0");
-    iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;; picture-in-picture");
-    iframe.setAttribute("allowfullscreen", "");
-    iframe.setAttribute("allowtransparency", "true")
-    iframe.style.backgroundColor = "transparent"
-    iframe.allowTransparency="true"
-
-    card.appendChild(iframe);
-}
-
+// function stopKeyboardSound() {
+//     audio.pause();
+//     audio.currentTime = 0;
+//     console.log(`Stop, ${play}`)
+//     play = false;
+// }
 
 //
 // let tag = document.createElement("script");
